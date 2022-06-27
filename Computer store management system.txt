@@ -1,0 +1,907 @@
+#include <iostream>
+#include <ctime>
+#include <vector>
+#include <string>
+#include <iomanip>
+#include <stdlib.h>
+using namespace std;
+vector<string> type;
+vector<string> specifications;
+vector<string> computerName;
+vector<int> price;
+class stock{
+protected:
+    void Output();
+};
+class node:protected stock{
+private:
+
+    int receipt_number, x;
+    string payment_status;
+    string customerName, date;
+    vector<int> quantity;vector<int> menu2;
+    vector<int> amount;
+    int total;
+    node *next;
+public:
+    node(){
+        payment_status="pending";
+        total=0;
+    }
+    void assign(){
+        type.push_back("8GB");type.push_back("4GB"); type.push_back("4GB");type.push_back("8GB");type.push_back("8GB");type.push_back("8GB");type.push_back("4GB");type.push_back("8GB");type.push_back("4GB");type.push_back("8GB");
+        specifications.push_back("Intel Core i5(10th Gen)");specifications.push_back("Intel Core i3 (10th Gen)");specifications.push_back("Intel Core i5(11th Gen)");specifications.push_back("Intel Core i5 (12th Gen)");specifications.push_back("Intel Core i9 (12th Gen)");
+        specifications.push_back("Intel Core i5(10th Gen)");specifications.push_back("Intel Core i3(12th Gen)");specifications.push_back("Intel Core i3(11th Gen)");specifications.push_back("Intel Core i9 (10th Gen)");specifications.push_back("Intel Core i7(10th Gen)");
+        computerName.push_back("Dell Inspiron 15 5590");computerName.push_back("Asus X412FA-EK361TY");computerName.push_back("Lenovo Ideapad 3300");computerName.push_back("Huawei Mach-W19BN");computerName.push_back( "Apple MacBook Air");computerName.push_back("HP 15s-du1034tuz");
+        computerName.push_back("Acer Aspire ES1-571");computerName.push_back("HP 15-DA0070TX");computerName.push_back("Lenovo Ideapad 3000");computerName.push_back("HP Pavilion 15-ac028TX");
+        price.push_back(66490);price.push_back(40000);price.push_back(44000);price.push_back(77899);price.push_back(118990);price.push_back(53999);price.push_back(25655);price.push_back(49279);price.push_back(43000);price.push_back(64000);
+
+    }
+    void manage_stock(){
+        fn1:
+        system("cls");
+        cout << "\t\t---------------------------------------------------\n";
+        cout << "\t\t||\t1. Add Product.\t\t\t\t ||\n";
+        cout << "\t\t||\t2. Remove Product \t\t\t ||\n";
+        cout << "\t\t||\t3. Exit\t\t\t\t\t ||\n";
+        cout << "\t\t---------------------------------------------------\n";
+        cout << "Enter choice: ";
+        int ch;cin>>ch;
+        switch (ch) {
+            case 1:{
+                string str;
+                cout << "\n\t\t\t\t\t=============================\n";
+                cout << "\t\t\t\t\t        Current Stock               \n";
+                cout << "\t\t\t\t\t=============================\n\n";
+                Output();
+                cout << "---------------------------------------------------\n";
+                fflush(stdin);
+                cout<<"Enter Computer Type: ";
+                getline(cin,str);type.push_back(str);
+                fflush(stdin);
+                cout << "Enter Computer Name: ";
+                getline(cin,str);computerName.push_back(str);
+                fflush(stdin);
+                cout<< "Enter Specification: ";
+                getline(cin,str);specifications.push_back(str);
+                cout<< "Enter Price: ";int p;
+                cin>>p;price.push_back(p);
+                cout << "---------------------------------------------------\n";
+                fflush(stdin);system("pause");
+                goto fn1;
+            }
+            case 2:{
+                Output();
+                cout << "---------------------------------------------------\n";
+                cout<<"Enter Product Id of Product to be Removed: ";int id;
+                cin>>id;
+                cout << "---------------------------------------------------\n";
+                type.erase(type.begin()+id-1);computerName.erase(computerName.begin()+id-1);
+                price.erase(price.begin()+id-1);specifications.erase(specifications.begin()+id-1);
+                system("pause");
+                goto fn1;
+            }
+            case 3:{
+                system("cls");
+                cout << "\n\t\t\t\t\t=============================\n";
+                cout << "\t\t\t\t\t      MODIFIED Stock List          \n";
+                cout << "\t\t\t\t\t=============================\n\n";
+                Output();
+                return;
+            }
+            default:{
+                cout << "---------------------------------------------------\n";
+                cout << "Pls Enter a Valid Input..."<<endl;
+                cout << "---------------------------------------------------\n";
+                system("pause");
+                goto fn1;
+            }
+        }
+    }
+    friend class Everything;
+    friend class stock;
+    friend class receipt_struct;
+
+} *temp;
+node Node;
+node *start_ptr = NULL;
+node *head = NULL;
+node *last = NULL;
+void stock::Output() {
+    string str1 = "********************************************************************************************************************";
+    string str2 = "--------------------------------------------------------------------------------------------------------------------";
+
+
+
+    cout << str1<<endl;
+    cout << " ID "
+         << "\t COMPUTER TYPE  "
+         << "\tCOMPUTER SPECS "
+         << "   \t\t COMPUTER NAME"
+         << "    \t\tCOMPUTER PRICE (RS.)" << endl;
+    cout << str1<<endl;
+    node *temp;temp=new node;
+    for(int i=0;i<type.size();i++){
+        cout <<left<<setw(10)<<i+1
+             << setw(22)<< type.at(i)<< left
+             << setw(33)<<specifications.at(i)<< left
+             << setw(43)<<computerName.at(i)<<right
+             <<price.at(i)<< endl;
+        cout << str2<<endl;
+    }
+    cout << str1<<endl;
+    cout << " " << endl;
+}
+class receipt_struct{
+protected:
+    void bill_struct(node *temp) {
+        if (temp != start_ptr && temp != NULL) {
+            temp->next = NULL;
+        }
+        while (temp != NULL) {
+
+            cout << "Receipt Number : " << temp->receipt_number << endl;
+            cout << "Customer Name  : " << temp->customerName << endl;
+            cout << "Order Date     : " << temp->date << endl
+                 << endl;
+
+            cout<< "===================+===================+==============================+====================+=======================+"<< endl;
+            cout<< "|    Product ID    |   Computer Type   |         Computer Name        |      Quantity      |     Total Price (Rs.) |"<< endl;
+            cout<< "+==================+===================+==============================+====================+=======================+"<< endl;
+            for (int i = 0; i < temp->x; i++) {
+                cout <<setw(10)<<right<< temp->menu2.at(i);
+                cout << setw(20)<< type.at(temp->menu2.at(i) - 1)<< right;
+                cout <<setw(35)<<computerName.at(temp->menu2.at(i) - 1) <<right;
+                cout <<setw(17)<< temp->quantity.at(i) <<right;
+                cout << setw(20)<<temp->amount.at(i)<<".00" <<left<< endl;
+                cout<< "+------------------+-------------------+------------------------------+--------------------+-----------------------+"<< endl;
+            }
+
+            for (int i = 0; i < temp->amount.size(); i++) {
+                temp->total = temp->total + temp->amount.at(i);
+            }
+            cout << "\nTotal Bill: " << temp->total << ".00/- Rs.";
+            cout << "\n\n";
+            temp->total = 0;
+            cout << "\n Payment Status: "<<temp->payment_status;
+            temp = temp->next;
+            cout << "\n=====================================================================================================================\n"<< endl;
+        }
+    }
+};
+class Everything:  private stock, private receipt_struct{
+public:
+
+    void take_order();
+    void delete_order();
+    void modify();
+    void Receipt(int x);
+    void daily_summary();
+    void payment_gateway();
+    void exit();
+   
+    inline int receiptNo(){
+        srand(time(0));
+        int y=rand();return y;
+    }
+    inline char *date(){
+        time_t now = time(0);
+        char* date = ctime(&now);
+        return date;
+    }
+    ~Everything();
+};
+Everything computer;
+void Everything ::take_order()
+{
+    system("cls");
+    int i;
+    cout << "-----------------";
+    cout << "\nAdd Order Details\n";
+    cout << "-----------------\n\n";
+    Output();
+    node *temp;
+    temp = new node;
+    string str = "-------------------------------------------";
+
+    cout << str<<endl;
+
+    cout << "Order No. is: ";
+    temp->receipt_number=receiptNo();
+    cout<<temp->receipt_number<<endl;
+
+    cout << "Customer Name: ";
+    fflush(stdin);
+    getline(cin,temp->customerName);
+
+    temp->date=date();
+    cout<<"billing date is: "<<temp->date<<endl;
+
+    cout << str<<endl;
+
+    cout << endl<<"How many different laptops would you like to order?";
+    cin >> temp->x;
+
+    cout << endl;
+
+    if (temp->x <= 0){
+        cout << "\nInvalid order!!!\n";
+        cout << str;
+        system("pause");
+    }
+    else{
+        cout << str<<endl;
+
+        cout <<"\t   Enter Computer ID"<<endl;
+
+        for (i = 0; i < temp->x; i++){
+            cout << str<<endl;
+
+            cout << "Please Enter Your Selection: ";int x;
+            cin>>x;
+            temp->menu2.push_back(x);
+
+            cout << endl<<"Laptop Name: " << computerName.at(temp->menu2.at(i) - 1) << endl;
+
+            cout << endl<<"How many laptops do you want?: ";
+            cin>>x;
+            temp->quantity.push_back(x);
+            x = temp->quantity.at(i) * price.at(temp->menu2.at(i)-1);
+            temp->amount.push_back(x);
+            cout << endl<<"The amount You need to pay is: Rs. " << temp->amount.at(i)<< "/-" << endl;
+
+            cout << str << endl;
+
+            system("PAUSE");
+        }
+
+        cout << "\n===========================================================================" << endl;
+        cout << "                     Order No."<<temp->receipt_number<<" Placed Successfully..." << endl;
+        cout << "===========================================================================" << endl;
+        cout << "                   Go to Payment Menu to Pay The Bill" << endl;
+        cout << "===========================================================================\n" << endl;
+
+        system("PAUSE");
+        temp->next = NULL;
+
+        if (start_ptr == NULL) {
+            start_ptr = new node;
+            start_ptr =head= temp;
+            head=temp;
+        }else {
+            head->next = temp;
+            head=head->next;
+        }
+        system("cls");
+    }
+}
+void Everything ::delete_order()
+{
+    system("cls");
+
+    string str = "\t===========================================\n";
+
+    if (start_ptr == NULL)
+    {
+        cout << endl;
+        cout << str;
+        cerr << "\t     Can not delete from an Empty List\n";
+        cout << str;
+        cout << endl;
+    }
+
+    else
+    {
+        int i, num, count;
+        cout << "\nEnter the receipt number you want to delete: ";
+        cin >> num;
+        node *q;
+        node *temp;
+        bool found = false;
+
+        if (start_ptr->receipt_number == num)
+        {
+            q = start_ptr;
+            start_ptr = start_ptr->next;
+
+            count--;
+
+            if (start_ptr == NULL)
+                last = NULL;
+
+            delete q;
+
+            cout << "\n\t\t========================================\n";
+            cout << "\t\t The Receipt is Deleted Successfully!!!" << endl;
+            cout << "\t\t========================================\n\n";
+        }
+
+        else
+        {
+            temp = start_ptr;
+            q = start_ptr->next;
+
+            while ((!found) && (q != NULL))
+            {
+                if (q->receipt_number != num)
+                {
+                    temp = q;
+                    q = q->next;
+                }
+
+                else
+                    found = true;
+            }
+
+            if (found)
+            {
+                temp->next = q->next;
+                count--;
+
+                if (last == q)
+                    last = temp;
+                delete q;
+
+                cout << "\n\t\t========================================\n";
+                cout << "\t\t The Receipt is Deleted Successfully!!!" << endl;
+                cout << "\t\t========================================\n\n";
+            }
+
+            else
+            {
+                cout << "\n\t\t==========================================\n";
+                cout << "\t\t Item to be deleted is not in the list!!!" << endl;
+                cout << "\t\t==========================================\n\n";
+            }
+        }
+    }
+
+}
+void Everything ::modify()
+{
+    system("cls");
+    int i, ch, sid=1;
+    bool found = false;
+    temp = start_ptr;
+
+    if (temp == NULL || sid == 0)
+    {
+        cout << "\n\t\t=============================\n";
+        cout << "\t\t    NO RECORD TO MODIFY...!\n";
+        cout << "\t\t=============================\n\n";
+        system("pause");
+    }
+
+    else
+    {
+        cout << "\nEnter Receipt Number To Modify: ";
+        cin >> sid;
+
+        while (temp != NULL && !found)
+        {
+            if (temp->receipt_number == sid)
+                found = true;
+
+            else
+                temp = temp->next;
+
+            if (found)
+            {
+                fn1:
+                system("cls");
+                cout << "\t\t---------------------------------------------------\n";
+                cout << "\t\t||\t1. Change Customer Name\t\t\t ||\n";
+                cout << "\t\t||\t2. Change Date \t\t\t \t ||\n";
+                cout << "\t\t||\t3. Change Product Purchased              ||\n";
+                cout << "\t\t||\t4. Exit\t\t\t\t\t ||\n";
+                cout << "\t\t---------------------------------------------------\n";
+                cout << "Enter choice: ";
+                int x;cin>>x;
+                switch (x) {
+                    case 1:{
+                        system("cls");
+                        Receipt(sid);
+                        cout<<"Enter the name to be updated: ";
+                        fflush(stdin);getline(cin,temp->customerName);system("pause");
+                        goto fn1;
+                    }
+                    case 2:{
+                        system("cls");
+                        Receipt(sid);
+                        temp->date=date();
+                        cout<<"date changed to:"<<temp->date;system("pause");
+                        goto fn1;
+                    }
+                    case 3:{fn2:
+                        system("cls");
+                        int y;
+                        cout << "\t\t---------------------------------------------------\n";
+                        cout << "\t\t||\t1. Remove product  \t\t \t ||\n";
+                        cout << "\t\t||\t2. Add product\t\t\t     \t ||\n";
+                        cout << "\t\t||\t3. Exit\t\t\t\t\t ||\n";
+                        cout << "\t\t---------------------------------------------------\n";
+                        cin>>y;
+                        switch (y) {
+                            case 1:{
+                                system("cls");
+                                Receipt(sid);
+                                int num;
+                                string str = "-------------------------------------------";
+                                cout << str<<endl;
+                                cout <<"\t   Enter Computer ID"<<endl;
+                                cout<<str<<endl;
+                                cout<<"Please Enter Your Selection: "<<endl;cin>>num;
+                                int i=1;
+                                while(i<=temp->menu2.size()){
+                                    if(temp->menu2.at(i-1)==num){
+                                        temp->menu2.erase(temp->menu2.begin()+i-1);
+                                        temp->quantity.erase(temp->quantity.begin()+i-1);
+                                        temp->amount.erase(temp->amount.begin()+1-1);
+                                        temp->x--;temp->total=0;
+                                        goto fn2;
+                                    }
+                                    i++;
+                                }
+                            }
+                            case 2:{
+                                system("cls");
+                                Receipt(sid);
+                                int id;
+                                Output();
+                                string str = "-------------------------------------------";
+                                cout << str<<endl;
+                                cout <<"\t   Enter Computer ID"<<endl;
+                                cout<<str<<endl;
+                                cout<<"Please Enter Your Selection: "<<endl;cin>>id;temp->menu2.push_back(id-1);
+                                cout<<"Enter the No. of "<<computerName.at(id-1)<<" you want to purchase:"<<endl;
+                                int num;cin>>num;temp->quantity.push_back(num);
+                                temp->amount.push_back(temp->quantity.back()*price.at(temp->menu2.back()-1));
+                                cout<<"Amount to be paid = "<<temp->amount.back()<<".00/- Rs."<<endl;
+                                cout<<str<<endl;
+                                temp->total=0;temp->x++;
+                                goto fn2;
+                            }
+                            case 3:{
+                                break;
+                            }
+                            default:
+                            {
+                                cout << "Invalid input"<<endl<<"Please re-enter the input"<< endl;
+                                goto fn2;
+                            } // End default
+                        }
+                        goto fn1;
+                    }
+                    case 4:{
+                        system("cls");
+                        cout << "\n\t\t\t\t\t=============================\n";
+                        cout << "\t\t\t\t\t       MODIFIED RECEIPT          \n";
+                        cout << "\t\t\t\t\t=============================\n\n";
+                        Receipt(sid);
+                        system("pause");
+                        return;
+                    }
+                    default:
+                    {
+                        cout << "Invalid input"<<endl<<"Please re-enter the input"<<endl;
+                    }
+                }
+            }
+
+            else
+            {
+                if (temp != NULL && temp->receipt_number != sid)
+                {
+                    cout << "\n\t\t===============================\n";
+                    cout << "\t\t   Invalid Receipt Number...!" << endl;
+                    cout << "\t\t===============================\n\n";
+                    system("pause");
+                    return;
+                }
+            }
+        }
+        cout << "\n\t\t===============================\n";
+        cout << "\t\t   Invalid Receipt Number...!" << endl;
+        cout << "\t\t===============================\n\n";
+        system("pause");
+    }
+
+}
+void Everything ::Receipt(int num){
+    int i;
+    bool found = false;
+
+    string str = "\t\t===========================================\n";
+
+
+
+    node *temp = start_ptr;
+
+    if (temp == NULL)
+    {
+        cout << endl << str;
+        cout << "\t\t\tThere is no Order to show!!!"<<endl<<"\t\t\tThe List is Empty"<<endl;
+        cout << str << endl;
+    }
+
+    else
+    {
+
+        while (temp != NULL && !found)
+        {
+            if (temp->receipt_number == num)
+                found = true;
+
+            else
+                temp = temp->next;
+
+            if (found)
+            {
+                cout << "=====================================================================================================================" << endl;
+                cout << "\t\t\t\t\t\tHere is the Ordered list"<<endl;
+                cout << "=====================================================================================================================\n"<< endl;
+                bill_struct(temp);
+                cout << "Thank You!!!\n";
+                cout << "------------\n";
+                cout << "=====================================================================================================================\n\n";
+            }
+        }
+        if (!found)
+        {
+            cout << str;
+            cout << "\t\t\t  Invalid Receipt Number!\n";
+            cout << str << endl;
+        }
+    }
+}
+void Everything ::daily_summary()
+{
+    int i, num;
+    string str = "\t\t===========================================\n";
+
+    system("cls");
+    node *temp;
+
+    temp = start_ptr;
+
+    if (temp == NULL)
+    {
+        cout << endl << str;
+        cout << "\t\t\tThere is no Order to show!!!\n\t\t\tThe List is Empty\n";
+        cout << str << endl;
+    }
+
+    else
+    {
+        cout << "\n";
+        cout << "=====================================================================================================================" << endl;
+        cout << " \t\t\t\t\tHere is the Daily Summary of All Orders \n";
+        cout << "=====================================================================================================================\n"<< endl;
+        bill_struct(temp);
+    }
+
+}
+void Everything::payment_gateway() {
+    system("cls");
+    int num;
+    cout << endl << "Enter the order no. to proceed with the payment options: ";
+    cin >> num;
+    bool found = false;
+
+    string str = "\t\t===========================================\n";
+
+
+    node *temp = start_ptr;
+
+    if (temp == NULL)
+    {
+        cout << endl << str;
+        cout << "\t\t\tThere is no Order to show!!!" << endl << "\t\t\tThe List is Empty" << endl;
+        cout << str << endl;system("pause");
+    } else {
+
+        while (temp != NULL && !found) {
+            if (temp->receipt_number == num)
+                found = true;
+
+            else
+                temp = temp->next;
+
+            if (found) {
+                for (int i = 0; i < temp->amount.size(); i++) {
+                    temp->total = temp->total + temp->amount.at(i);
+                }
+                cout << "\t\t---------------------------------------------------\n";
+                cout<<"\t\t\t  Amount to be paid is : "<<temp->total<<endl;
+                cout << "\t\t---------------------------------------------------\n";
+                temp->total=0;
+                system("pause");fn1:
+                system("cls");
+                cout << "\t\t===================================================\n";
+                cout << "\t\t\t\t Payment Gateway \n";
+                cout << "\t\t===================================================\n\n";
+                cout << "\t\t---------------------------------------------------\n";
+                cout << "\t\t||\t1. Cash. \t\t\t\t ||\n";
+                cout << "\t\t||\t2. Debit/Credit Card.\t\t\t ||\n";
+                cout << "\t\t---------------------------------------------------\n";
+                cout << "Enter Choice: ";
+                int ch;
+                cin >> ch;
+                system("cls");
+                switch (ch) {
+                    case 1: {
+                        temp->payment_status="Completed";
+                        system("pause");
+                        return;
+                    }
+                    case 2: {
+                        cout << "\t\t===================================================\n";
+                        cout << "\t\t\t\t Payment Gateway \n";
+                        cout << "\t\t===================================================\n\n";
+                        cout << "\t\t---------------------------------------------------\n";
+                        cout << "\t\t|| Enter your 16 digit debit/credit card no.:    ||\n";
+                        cout << "\t\t---------------------------------------------------\n";
+                        fn2:cout << "\t\t";
+                        vector<double> card;
+                        for (int i = 0; i < 4; i++) {
+                            int num;
+                            cin >> num;
+                            if(999<num && num<10000) {
+                                card.push_back(num);
+                                continue;
+                            }
+                            cout<<"Pls Enter a Valid Card No.: "<<endl;
+                            goto fn2;
+                        }
+                        cout << "\t\t---------------------------------------------------\n";
+                        cout << "\t\t||Enter CVV: \t \t\t\t \t ||\n";
+                        cout << "\t\t---------------------------------------------------\n";
+                        fn3:cout << "\t\t";
+                        int n;
+                        cin >> n;
+                        if(99>n||n>999) {
+                            cout<<"Pls Enter a Valid CVV: "<<endl;
+                            goto fn3;
+                        }
+                        cout << "\t\t---------------------------------------------------\n";
+                        cout << "\t\t||Enter 4 digit OTP sent on your mobile no.    \t ||\n";
+                        cout << "\t\t---------------------------------------------------\n";
+                        fn4:cout << "\t\t";
+                        int m;
+                        cin >> m;
+                        if(999>m || m>=10000) {
+                            cout<<"Pls Enter a Valid OTP: "<<endl;
+                            goto fn4;
+                        }
+                        system("cls");
+                        cout << "\t\t===============================================\n";
+                        cout << "\t\t\tPayment Successfully Completed\n";
+                        cout << "\t\t===============================================\n\n";
+                        temp->payment_status = "Completed";
+                        system("PAUSE");
+                        return;
+                    }
+                    default:{
+                        cout<<"Not a valid input: "<<endl<<"try again...."<<endl;
+                        system("cls");goto fn1;
+                    }
+                }
+            }
+            if (!found) {
+                cout << str;
+                cout << "\t\t\t  Invalid Receipt Number!\n";
+                cout << str << endl;system("pause");
+            }
+        }
+    }
+}
+void Everything::exit() {
+    system("cls");
+    cout << "\t\t===============================\n";
+    cout << "\t\t          Exiting.       \n";
+    cout << "\t\t===============================\n\n";
+    system("pause");
+}
+Everything::~Everything() {
+    system("cls");
+    cout << "\t\t===============================\n";
+    cout << "\t\t          Exiting.       \n";
+    cout << "\t\t===============================\n\n";
+    system("pause");
+}
+char sign_in(){
+    fn1:
+    cout << "\t\t==================================================\n";
+    cout << "\t\t\t Computer Store Management System \n";
+    cout << "\t\t==================================================\n\n";
+    cout << "\t\t---------------------------------------------------\n";
+    cout << "\t\t||\t1. Admin \t\t\t\t ||\n";
+    cout << "\t\t||\t2. User\t\t\t\t\t ||\n";
+    cout << "\t\t||\t3. Exit\t\t\t\t\t ||\n";
+    cout << "\t\t---------------------------------------------------\n";
+    cout << "Enter choice:";
+    int y;cin>>y;
+    switch (y) {
+        case 1: {
+            string userName;
+            string userPassword;
+            int loginAttempt = 0;
+
+            while (loginAttempt < 5) {
+                cout << "Please enter your user name: ";
+                cin >> userName;
+                cout << "Please enter your user password: ";
+                cin >> userPassword;
+
+                if (userName == "admin" && userPassword == "*****") {
+                    cout << "Welcome!\n";
+                    break;
+                } else {
+                    cout << "Invalid login attempt. Please try again.\n" << '\n';
+                    loginAttempt++;
+                }
+            }
+            if (loginAttempt == 5) {
+                cout << "Too many login attempts! The program will now terminate.";
+                return 'e';
+            }
+
+            cout << "Thank you for logging in.\n";
+            system("pause");
+            system("cls");
+            return 'a';
+        }
+        case 2: {
+            system("cls");
+            return 'u';
+        }
+        case 3:{
+            return 'e';
+        }
+        default:{
+            cout<<"Not a valid input: "<<endl<<"try again...."<<endl;
+            system("cls");goto fn1;
+        }
+    }
+}
+void adminInterface(){
+    int ch;
+    while(true){
+        system("cls");
+        cout << "\t\t==================================================\n";
+        cout << "\t\t\t Computer Store Management System \n";
+        cout << "\t\t==================================================\n\n";
+        cout << "\t\t---------------------------------------------------\n";
+        cout << "\t\t||\t1. Take New Computer Order \t\t ||\n";
+        cout << "\t\t||\t2. Delete Latest Order\t\t\t ||\n";
+        cout << "\t\t||\t3. Modify Order List \t\t\t ||\n";
+        cout << "\t\t||\t4. Print the Receipt                  \t ||\n";
+        cout << "\t\t||\t5. Daily Summary of Total Sale \t\t ||\n";
+        cout << "\t\t||\t6. Payment Gateway             \t\t ||\n";
+        cout << "\t\t||\t7. Manage Stock          \t\t ||\n";
+        cout << "\t\t||\t8. Exit\t\t\t\t\t ||\n";
+        cout << "\t\t---------------------------------------------------\n";
+        cout << "\nEnter Choice: ";
+        cin >> ch;
+
+        switch (ch){
+            case 1:{
+                computer.take_order();
+                break;
+            }
+            case 2:{
+                computer.delete_order();
+                system("PAUSE");
+                break;
+            }
+            case 3:{
+                computer.modify();
+                break;
+            }
+            case 4:{
+                system("cls");int n;
+                cout << endl<<"Enter the Receipt Number To Print The Receipt: ";
+                cin >> n;
+                cout << endl;
+
+                computer.Receipt(n);
+                system("PAUSE");
+                break;
+            }
+            case 5:{
+                computer.daily_summary();
+                system("PAUSE");
+                break;
+            }
+            case 6:{
+                computer.payment_gateway();
+                break;
+            }
+            case 7:{
+                Node.manage_stock();
+                system("pause");
+                break;
+            }
+            case 8:{
+                computer.exit();
+                return;
+            }
+
+            default:
+            {
+                cout << "Invalid input"<<endl<<"Please re-enter the input"<< endl;
+            }
+        }
+    }
+}
+void userInterface(){
+    while(true) {
+        system("cls");
+        cout << "\t\t==================================================\n";
+        cout << "\t\t\t Computer Store Management System \n";
+        cout << "\t\t==================================================\n\n";
+        cout << "\t\t---------------------------------------------------\n";
+        cout << "\t\t||\t1. Place new computer order \t\t ||\n";
+        cout << "\t\t||\t2. Modify Order List \t\t\t ||\n";
+        cout << "\t\t||\t3. Print the Receipt                  \t ||\n";
+        cout << "\t\t||\t4. Payment Gateway             \t\t ||\n";
+        cout << "\t\t||\t5. Exit\t\t\t\t\t ||\n";
+        cout << "\t\t---------------------------------------------------\n";
+        cout << "\nEnter Choice: ";
+        int ch;
+        cin >> ch;
+        switch (ch) {
+            case 1: {
+                computer.take_order();
+                break;
+            }
+            case 2: {
+                computer.modify();
+                break;
+            }
+
+            case 3: {
+                system("cls");
+                int n;
+                cout << endl << "Enter the order no. Number To Print The Receipt: ";
+                cin >> n;
+                cout << endl;
+
+                computer.Receipt(n);
+                system("PAUSE");
+                break;
+            }
+            case 4:{
+                computer.payment_gateway();
+                break;
+            }
+            case 5: {
+                computer.exit();
+                goto fn1;
+            }
+
+            default: {
+                cout << "Invalid input" << endl << "Please re-enter the input" << endl;
+            }
+        }
+    }
+    fn1:
+    system("cls");
+    cout << "\t\t===============================================\n";
+    cout << "\t\t\tThank You for shopping with us\n";
+    cout << "\t\t===============================================\n\n";
+    system("PAUSE");
+}
+int main(){
+    system("color F0");Node.assign();
+    char x;
+    while(x!='e') {
+        system("cls");
+        x=sign_in();
+        if (x == 'u')
+            userInterface();
+        else if (x == 'a')
+            adminInterface();
+    }
+    return 0;
+}
